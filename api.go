@@ -2,10 +2,23 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 )
+
+func imageHandler(w http.ResponseWriter, r *http.Request) {
+	file, err := os.Open("1575099511.png")
+	if err != nil {
+		http.Error(w, "Could not open image", http.StatusNotFound)
+	}
+
+	w.Header().Set("Content", "1575099511.png")
+
+	io.Copy(w, file)
+}
 
 func helloHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/hello" {
@@ -71,6 +84,7 @@ func main() {
 	http.HandleFunc("/hello", helloHandler)
 	http.HandleFunc("/kv_ch", kv_ch)
 	http.HandleFunc("/ch", ch)
+	http.HandleFunc("/image", imageHandler)
 	fmt.Printf("Starting server at port 8080\n")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal(err)
