@@ -10,12 +10,12 @@ import (
 )
 
 func imageHandler(w http.ResponseWriter, r *http.Request) {
-	file, err := os.Open("1575099511.png")
+	file, err := os.Open("Tinkovv.jpg")
 	if err != nil {
 		http.Error(w, "Could not open image", http.StatusNotFound)
 	}
 
-	w.Header().Set("Content", "1575099511.png")
+	w.Header().Set("Content", "Tinkovv.jpg")
 
 	io.Copy(w, file)
 }
